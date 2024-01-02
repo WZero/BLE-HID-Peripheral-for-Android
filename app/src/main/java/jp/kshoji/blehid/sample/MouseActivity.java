@@ -1,24 +1,23 @@
 package jp.kshoji.blehid.sample;
 
-import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
-
-import jp.kshoji.blehid.MousePeripheral;
-import jp.kshoji.blehid.sample.R.id;
-import jp.kshoji.blehid.sample.R.layout;
-import jp.kshoji.blehid.sample.R.string;
-
 import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_MOVE;
 import static android.view.MotionEvent.ACTION_POINTER_DOWN;
 import static android.view.MotionEvent.ACTION_POINTER_UP;
 import static android.view.MotionEvent.ACTION_UP;
 
+import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
+
+import com.zero.ble_hid.R;
+
+import jp.kshoji.blehid.MousePeripheral;
+
 /**
  * Activity for BLE Mouse peripheral
- * 
+ *
  * @author K.Shoji
  */
 public class MouseActivity extends AbstractBleActivity {
@@ -30,11 +29,11 @@ public class MouseActivity extends AbstractBleActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layout.activity_mouse);
-        
-        setTitle(getString(string.ble_mouse));
+        setContentView(R.layout.activity_mouse);
 
-        findViewById(id.activity_mouse).setOnTouchListener(new OnTouchListener() {
+        setTitle(getString(R.string.ble_mouse));
+
+        findViewById(R.id.activity_mouse).setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(final View view, final MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
@@ -46,7 +45,7 @@ public class MouseActivity extends AbstractBleActivity {
                         firstX = X;
                         firstY = Y;
                         return true;
-                    
+
                     case ACTION_MOVE:
                         maxPointerCount = Math.max(maxPointerCount, motionEvent.getPointerCount());
                         if (mouse != null) {
@@ -55,12 +54,12 @@ public class MouseActivity extends AbstractBleActivity {
                         X = motionEvent.getX();
                         Y = motionEvent.getY();
                         return true;
-                    
+
                     case ACTION_UP:
                     case ACTION_POINTER_UP:
                         X = motionEvent.getX();
                         Y = motionEvent.getY();
-                        if ((X-firstX) * (X-firstX) + (Y-firstY) * (Y-firstY) < 20) {
+                        if ((X - firstX) * (X - firstX) + (Y - firstY) * (Y - firstY) < 20) {
                             if (mouse != null) {
                                 if (maxPointerCount == 1) {
                                     mouse.movePointer((int) (motionEvent.getX() - X), (int) (motionEvent.getY() - Y), 0, true, false, false);
@@ -84,14 +83,14 @@ public class MouseActivity extends AbstractBleActivity {
     @Override
     void setupBlePeripheralProvider() {
         mouse = new MousePeripheral(this);
-        mouse.setDeviceName(getString(string.ble_mouse));
+        mouse.setDeviceName(getString(R.string.ble_mouse));
         mouse.startAdvertising();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        
+
         if (mouse != null) {
             mouse.stopAdvertising();
         }

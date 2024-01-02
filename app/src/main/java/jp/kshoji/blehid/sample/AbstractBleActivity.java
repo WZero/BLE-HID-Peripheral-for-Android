@@ -5,17 +5,18 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AlertDialog.Builder;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import jp.kshoji.blehid.sample.R.string;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.zero.ble_hid.R;
+
 import jp.kshoji.blehid.util.BleUtils;
 
 /**
  * Common procedures for BLE activities
- * 
+ *
  * @author K.Shoji
  */
 public abstract class AbstractBleActivity extends AppCompatActivity {
@@ -31,10 +32,10 @@ public abstract class AbstractBleActivity extends AppCompatActivity {
 
         if (!BleUtils.isBleSupported(this) || !BleUtils.isBlePeripheralSupported(this)) {
             // display alert and exit
-            final AlertDialog alertDialog = new Builder(this).create();
-            alertDialog.setTitle(getString(string.not_supported));
-            alertDialog.setMessage(getString(string.ble_perip_not_supported));
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(string.ok),
+            final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle(getString(R.string.not_supported));
+            alertDialog.setMessage(getString(R.string.ble_perip_not_supported));
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.ok),
                     new OnClickListener() {
                         @Override
                         public void onClick(final DialogInterface dialog, final int which) {
@@ -52,7 +53,7 @@ public abstract class AbstractBleActivity extends AppCompatActivity {
             setupBlePeripheralProvider();
         }
     }
-    
+
     abstract void setupBlePeripheralProvider();
 
     @Override
@@ -63,16 +64,16 @@ public abstract class AbstractBleActivity extends AppCompatActivity {
             if (!BleUtils.isBluetoothEnabled(this)) {
                 // User selected NOT to use Bluetooth.
                 // do nothing
-                Toast.makeText(this, string.requires_bl_enabled, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.requires_bl_enabled, Toast.LENGTH_LONG).show();
                 return;
             }
 
             if (!BleUtils.isBleSupported(this) || !BleUtils.isBlePeripheralSupported(this)) {
                 // display alert and exit
-                final AlertDialog alertDialog = new Builder(this).create();
-                alertDialog.setTitle(getString(string.not_supported));
-                alertDialog.setMessage(getString(string.ble_perip_not_supported));
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(string.ok),
+                final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+                alertDialog.setTitle(getString(R.string.not_supported));
+                alertDialog.setMessage(getString(R.string.ble_perip_not_supported));
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.ok),
                         new OnClickListener() {
                             @Override
                             public void onClick(final DialogInterface dialog, final int which) {
